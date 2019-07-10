@@ -1,0 +1,32 @@
+#!/bin/bash
+#############################################################
+# Lecture du port /dev/pts/0
+# Enregistrement dans $HOME/logs/pts0-dateheuremunites.log
+# 
+# Auteur : MS
+# Date : 22/06/2019
+#############################################################
+
+logdir="$HOME/logs"
+logfile="pts0-"
+logdate=$(date +%Y%m%d%H%M)
+logext=".log"
+file=$logdir"/"$logfile$logdate$logext
+if [ ! -e $logdir ]
+then
+	mkdir $logdir
+	echo > $file
+fi
+
+while true
+do
+	nbligne=$(wc -l < $file)
+	echo $nbligne
+	if [ $nbligne -gt 60 ]
+	then
+		logdate=$(date +%Y%m%d%H%M)
+		file=$logdir"/"$logfile$logdate$logext
+	fi	
+	read recu < /dev/pts/0
+	echo "$(date);$recu" >> $file
+done 

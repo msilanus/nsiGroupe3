@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# envoi la température moyenne du proc sur /dev/pts/1
+#
+i=0
+while true
+do
+	echo "$i °C" > /dev/pts/1
+	sleep 1
+	((i++))
+done 
